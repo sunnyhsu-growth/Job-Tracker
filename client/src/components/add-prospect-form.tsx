@@ -37,6 +37,9 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
       status: "Bookmarked",
       interestLevel: "Medium",
       salary: null,
+      referralName: "",
+      referralEmail: "",
+      referralLinkedin: "",
       notes: "",
     },
   });
@@ -185,6 +188,66 @@ export function AddProspectForm({ onSuccess }: { onSuccess?: () => void }) {
             </FormItem>
           )}
         />
+
+        <div className="space-y-3 rounded-md border border-border p-3">
+          <p className="text-sm font-medium">Referral Contact (optional)</p>
+          <FormField
+            control={form.control}
+            name="referralName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Referral Name</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g. Jane Smith"
+                    {...field}
+                    value={field.value ?? ""}
+                    data-testid="input-referral-name"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="referralEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Referral Email</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="e.g. jane@example.com"
+                    {...field}
+                    value={field.value ?? ""}
+                    data-testid="input-referral-email"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="referralLinkedin"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Referral LinkedIn</FormLabel>
+                <FormControl>
+                  <Input
+                    type="url"
+                    placeholder="https://linkedin.com/in/..."
+                    {...field}
+                    value={field.value ?? ""}
+                    data-testid="input-referral-linkedin"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         <FormField
           control={form.control}

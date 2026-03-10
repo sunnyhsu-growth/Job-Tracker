@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Prospect } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Trash2, Pencil, Flame, ThumbsUp, Minus, DollarSign } from "lucide-react";
+import { ExternalLink, Trash2, Pencil, Flame, ThumbsUp, Minus, DollarSign, UserCheck, Mail, Linkedin } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -125,6 +125,43 @@ export function ProspectCard({ prospect }: { prospect: Prospect }) {
             <ExternalLink className="w-3 h-3" />
             Posting
           </a>
+        )}
+
+        {(prospect.referralName || prospect.referralEmail || prospect.referralLinkedin) && (
+          <div className="flex items-start gap-1.5 text-xs" data-testid={`referral-${prospect.id}`}>
+            <UserCheck className="w-3 h-3 mt-0.5 shrink-0 text-violet-500" />
+            <div className="min-w-0 space-y-0.5">
+              {prospect.referralName && (
+                <p className="font-medium text-foreground truncate" data-testid={`text-referral-name-${prospect.id}`}>
+                  {prospect.referralName}
+                </p>
+              )}
+              {prospect.referralEmail && (
+                <a
+                  href={`mailto:${prospect.referralEmail}`}
+                  className="flex items-center gap-1 text-primary hover:underline truncate"
+                  onClick={(e) => e.stopPropagation()}
+                  data-testid={`link-referral-email-${prospect.id}`}
+                >
+                  <Mail className="w-3 h-3 shrink-0" />
+                  {prospect.referralEmail}
+                </a>
+              )}
+              {prospect.referralLinkedin && (
+                <a
+                  href={prospect.referralLinkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 text-primary hover:underline truncate"
+                  onClick={(e) => e.stopPropagation()}
+                  data-testid={`link-referral-linkedin-${prospect.id}`}
+                >
+                  <Linkedin className="w-3 h-3 shrink-0" />
+                  LinkedIn
+                </a>
+              )}
+            </div>
+          </div>
         )}
 
         {prospect.notes && (
