@@ -22,6 +22,9 @@ export const prospects = pgTable("prospects", {
   status: text("status").notNull().default("Bookmarked"),
   interestLevel: text("interest_level").notNull().default("Medium"),
   salary: integer("salary"),
+  referralName: text("referral_name"),
+  referralEmail: text("referral_email"),
+  referralLinkedin: text("referral_linkedin"),
   notes: text("notes"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
@@ -35,6 +38,9 @@ export const insertProspectSchema = createInsertSchema(prospects).omit({
   status: z.enum(STATUSES).default("Bookmarked"),
   interestLevel: z.enum(INTEREST_LEVELS).default("Medium"),
   salary: z.number().int().min(0, "Salary cannot be negative").optional().nullable(),
+  referralName: z.string().optional().nullable(),
+  referralEmail: z.string().email("Invalid email address").optional().nullable().or(z.literal("")),
+  referralLinkedin: z.string().url("Invalid URL").optional().nullable().or(z.literal("")),
   jobUrl: z.string().optional().nullable(),
   notes: z.string().optional().nullable(),
 });

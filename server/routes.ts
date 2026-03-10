@@ -39,6 +39,23 @@ export async function registerRoutes(
     if (body.roleTitle !== undefined) updates.roleTitle = body.roleTitle;
     if (body.jobUrl !== undefined) updates.jobUrl = body.jobUrl;
     if (body.notes !== undefined) updates.notes = body.notes;
+    if (body.referralName !== undefined) {
+      updates.referralName = (typeof body.referralName === "string" && body.referralName.trim()) ? body.referralName.trim() : null;
+    }
+    if (body.referralEmail !== undefined) {
+      const email = typeof body.referralEmail === "string" ? body.referralEmail.trim() : "";
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ message: "Invalid referral email address" });
+      }
+      updates.referralEmail = email || null;
+    }
+    if (body.referralLinkedin !== undefined) {
+      const url = typeof body.referralLinkedin === "string" ? body.referralLinkedin.trim() : "";
+      if (url && !/^https?:\/\//i.test(url)) {
+        return res.status(400).json({ message: "Referral LinkedIn must be a valid URL starting with http(s)" });
+      }
+      updates.referralLinkedin = url || null;
+    }
     if (body.salary !== undefined) {
       if (body.salary !== null && (typeof body.salary !== "number" || !Number.isFinite(body.salary) || !Number.isInteger(body.salary) || body.salary < 0)) {
         return res.status(400).json({ message: "Salary must be a non-negative integer" });
